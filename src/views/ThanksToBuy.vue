@@ -5,9 +5,25 @@
       <h4>謝謝您的訂購</h4>
       <p>商品到貨時，將以手機簡訊提醒。</p>
     </div>
-    <button class="back" @click="$router.go(-1)">回商品頁面</button>
+    <div class="down">
+      <button class="back" @click.stop.prevent="linkToCheckout">訂單查詢</button>
+      <button class="back" @click.stop.prevent="linkToIndex">回商品頁</button>
+    </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    linkToCheckout() {
+      this.$router.push({ name: 'checkout-list'})
+    },
+    linkToIndex() {
+      this.$router.push({ name: 'index'})
+    }
+  }
+}
+</script>
 
 <style scoped>
 .container-404 {
@@ -45,6 +61,6 @@ p {
   font-size: 1rem;
   color: var(--brand-color);
   text-decoration: underline;
-  margin: 2rem 0;
+  margin: 2rem 0.5rem;
 }
 </style>
