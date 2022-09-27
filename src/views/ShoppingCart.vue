@@ -382,6 +382,7 @@ export default {
         localStorage.removeItem('shopping-cart')
         this.checkOutList = {}
         this.orderList = []
+        this.updateCart(true)
         this.$router.push('/shopping/checkout')
       }
     }
