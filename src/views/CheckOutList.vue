@@ -31,7 +31,7 @@
                 </div>
                 <div class="header">
                   <div class="delivery-title">取貨門市：</div>
-                  <div class="delivery">{{ list.delivery }}</div>
+                  <div class="delivery">{{ list.delivery | deliveryStoreFilter(list.delivery) }}</div>
                 </div>
               </div>
             </div>
@@ -111,6 +111,17 @@ export default {
     getCheckOutList() {
       this.checkOutList = JSON.parse(localStorage.getItem("order-list")) || [];
     },
+    backToShop () {
+      this.$router.push('/index')
+    }
+  },
+  filters: {
+    deliveryStoreFilter (deliveryStore) {
+      if (deliveryStore === 'chitu') {
+        return '七堵門市'
+      }
+      return '汐科門市'
+    }
   },
 };
 </script>
