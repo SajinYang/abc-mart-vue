@@ -9,14 +9,14 @@
       <ul class="list">
         <li class="search">
           <form @submit.stop.prevent="searchItems" action="">
-            <div class="item item-search"
-              ><img src="../assets/icons/search.svg" alt="" />
+            <div class="item item-search">
+              <img src="../assets/icons/search.svg" alt="" />
               <input
-                v-model="keyword"
+                v-model.trim="keyword"
                 class="search-text"
                 placeholder="Search"
               />
-          </div>
+            </div>
           </form>
         </li>
         <li>
@@ -65,7 +65,7 @@ export default {
     },
     searchItems() {
       this.updatekeyword(this.keyword);
-      this.$router.push("/search")
+      this.$router.push("/search");
       this.keyword = "";
     },
   },
