@@ -134,6 +134,9 @@ export default {
         return alert("Cannot find items with  keyword: " + keyword);
       }
     },
+    backToShop () {
+      this.$router.push('/index')
+    }
   },
   watch: {
     keywordVuex() {
