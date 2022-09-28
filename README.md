@@ -1,7 +1,7 @@
 # abc-mart-vue
 
 ## Demo
-https://sajinyang.github.io/simple-twitter-frontend/
+https://sajinyang.github.io/abc-mart-vue
 
 ## Features
 - 首頁可查看本月熱銷及嚴選團購商品
