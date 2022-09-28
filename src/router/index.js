@@ -37,6 +37,11 @@ const routes = [
     component: () => import('../views/CheckOutList.vue')
   },
   {
+    path: '/search',
+    name: 'search',
+    component: () => import('../views/Search.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound
@@ -47,5 +52,10 @@ const router = new VueRouter({
   linkExactActiveClass: 'active',
   routes
 })
+
+const VueRouterPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push (to) {
+  return VueRouterPush.call(this, to).catch(err => err)
+}
 
 export default router

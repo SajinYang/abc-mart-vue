@@ -8,17 +8,22 @@
     <div class="menu">
       <ul class="list">
         <li class="search">
-          <router-link to="" class="item item-search"
-            ><img src="../assets/icons/search.svg" alt="" />
-            <input class="search-text" placeholder="Search" />
-          </router-link>
+          <form @submit.stop.prevent="searchItems" action="">
+            <div class="item item-search"
+              ><img src="../assets/icons/search.svg" alt="" />
+              <input
+                v-model="keyword"
+                class="search-text"
+                placeholder="Search"
+              />
+          </div>
+          </form>
         </li>
         <li>
           <router-link to="/shopping/checkoutlist" class="item item-last"
             ><img src="../assets/icons/shopping-list.svg" alt="" />
             <div class="item-title">訂單查詢</div>
           </router-link>
-          
         </li>
         <li>
           <router-link to="/shopping" class="item item-last">
@@ -44,6 +49,7 @@ export default {
   data() {
     return {
       cartList: [],
+      keyword: "",
     };
   },
   created() {
@@ -53,9 +59,14 @@ export default {
     ...mapState({ updateCartNow: "updateCartNow" }),
   },
   methods: {
-    ...mapActions(["updateCart"]),
+    ...mapActions(["updateCart", "updatekeyword"]),
     getCartList() {
       this.cartList = JSON.parse(localStorage.getItem("shopping-cart")) || [];
+    },
+    searchItems() {
+      this.updatekeyword(this.keyword);
+      this.$router.push("/search")
+      this.keyword = "";
     },
   },
   watch: {
@@ -215,15 +226,15 @@ img {
   }
 
   #toggler:checked ~ .drawer-overlay {
-      position: fixed;
-      z-index: 20;
-      top: 0;
-      left: 0;
-      display: block;
-      width: 100%;
-      height: 100%;
-      cursor: auto;
-      // background-color: rgba(0, 0, 0, 0.2);
+    position: fixed;
+    z-index: 20;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: auto;
+    // background-color: rgba(0, 0, 0, 0.2);
   }
 
   .search {
