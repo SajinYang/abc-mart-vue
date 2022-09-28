@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <router-link to="/index" class="logo"><div>ABC團購網</div> </router-link>
-    <input type="checkbox" id="toggler" />
+    <input type="checkbox" id="toggler" v-model="checked" />
     <label for="toggler"
       ><img src="../assets/icons/menu-icon.svg" alt=""
     /></label>
@@ -19,13 +19,13 @@
             </div>
           </form>
         </li>
-        <li>
+        <li @click.stop.prevent="checkboxToggle">
           <router-link to="/shopping/checkoutlist" class="item item-last"
             ><img src="../assets/icons/shopping-list.svg" alt="" />
             <div class="item-title">訂單查詢</div>
           </router-link>
         </li>
-        <li>
+        <li @click.stop.prevent="checkboxToggle">
           <router-link to="/shopping" class="item item-last">
             <div class="shipping-car">
               <img src="../assets/icons/shopping-cart.svg" alt="" />
@@ -50,6 +50,7 @@ export default {
     return {
       cartList: [],
       keyword: "",
+      checked: false,
     };
   },
   created() {
@@ -67,6 +68,10 @@ export default {
       this.updatekeyword(this.keyword);
       this.$router.push("/search");
       this.keyword = "";
+      this.checkboxToggle();
+    },
+    checkboxToggle() {
+      this.checked = false;
     },
   },
   watch: {
