@@ -13,6 +13,7 @@ https://sajinyang.github.io/abc-mart-vue
 - 送出訂單前，必須填寫完整訂購人資訊，若填寫不齊全，將會有提示彈出
 - 訂購完成後，可至"訂單查詢"查看
 - 搜尋功能
+- RWD
 
 ## Setup project locally
 - `git clone` repo via SSH or HTTPS
