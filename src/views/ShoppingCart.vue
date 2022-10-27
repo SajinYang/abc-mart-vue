@@ -233,161 +233,162 @@
 </template>
 
 <script>
-import { Toast } from '../utils/helpers'
-import { dollorsFormatFilter } from '../utils/mixin'
-import { v4 as uuidv4 } from 'uuid'
-import { mapActions } from 'vuex'
+import { Toast } from "../utils/helpers";
+import { dollorsFormatFilter } from "../utils/mixin";
+import { v4 as uuidv4 } from "uuid";
+import { mapActions } from "vuex";
 
 export default {
   mixins: [dollorsFormatFilter],
-  data () {
+  data() {
     return {
       cartList: [],
       checkOutList: {
         orderId: -1,
         items: {},
-        name: '',
-        phone: '',
-        delivery: '',
+        name: "",
+        phone: "",
+        delivery: "",
         agree: false,
-        totalAmount: 0
+        totalAmount: 0,
       },
-      orderList: []
-    }
+      orderList: [],
+    };
   },
-  created () {
-    this.getCartList()
-    this.accountTotalAmount()
-    this.getOrderList()
+  created() {
+    this.getCartList();
+    this.accountTotalAmount();
+    this.getOrderList();
   },
   methods: {
-    ...mapActions(['updateCart']),
-    getCartList () {
-      this.cartList = JSON.parse(localStorage.getItem('shopping-cart')) || []
+    ...mapActions(["updateCart"]),
+    getCartList() {
+      this.cartList = JSON.parse(localStorage.getItem("shopping-cart")) || [];
       this.checkOutList.items =
-        JSON.parse(localStorage.getItem('shopping-cart')) || []
+        JSON.parse(localStorage.getItem("shopping-cart")) || [];
     },
-    getOrderList () {
-      this.orderList = JSON.parse(localStorage.getItem('order-list')) || []
+    getOrderList() {
+      this.orderList = JSON.parse(localStorage.getItem("order-list")) || [];
     },
-    addProductQty (itemId) {
-      const currentList = this.cartList.findIndex((list) => list.id === itemId)
+    addProductQty(itemId) {
+      const currentList = this.cartList.findIndex((list) => list.id === itemId);
       if (currentList >= 0) {
-        this.cartList[currentList].buyQty += 1
+        this.cartList[currentList].buyQty += 1;
       }
-      this.accountTotalAmount()
-      this.updateCartList()
+      this.accountTotalAmount();
+      this.updateCartList();
     },
-    reduceProductQty (itemId) {
-      const currentList = this.cartList.findIndex((list) => list.id === itemId)
+    reduceProductQty(itemId) {
+      const currentList = this.cartList.findIndex((list) => list.id === itemId);
       if (this.cartList[currentList].buyQty === 1) {
         Toast.fire({
-          icon: 'error',
-          title: '數量不得少於1'
-        })
-        return
+          icon: "error",
+          title: "數量不得少於1",
+        });
+        return;
       }
       if (currentList >= 0) {
-        this.cartList[currentList].buyQty -= 1
+        this.cartList[currentList].buyQty -= 1;
       }
-      this.accountTotalAmount()
-      this.updateCartList()
+      this.accountTotalAmount();
+      this.updateCartList();
     },
-    productQtyCheck (itemId) {
-      const currentList = this.cartList.findIndex((list) => list.id === itemId)
+    productQtyCheck(itemId) {
+      const currentList = this.cartList.findIndex((list) => list.id === itemId);
       if (this.cartList[currentList].buyQty < 1) {
         Toast.fire({
-          icon: 'error',
-          title: '數量不得少於1'
-        })
+          icon: "error",
+          title: "數量不得少於1",
+        });
 
-        this.cartList[currentList].buyQty = 1
+        this.cartList[currentList].buyQty = 1;
       }
-      this.accountTotalAmount()
-      this.updateCartList()
+      this.accountTotalAmount();
+      this.updateCartList();
     },
-    deleteCartList (listId) {
-      const confirm = window.confirm('確定要將此商品從購物車移除嗎？')
+    deleteCartList(listId) {
+      const confirm = window.confirm("確定要將此商品從購物車移除嗎？");
       if (confirm === true) {
-        this.cartList = this.cartList.filter((list) => list.id !== listId)
-        localStorage.setItem('shopping-cart', JSON.stringify(this.cartList))
+        this.cartList = this.cartList.filter((list) => list.id !== listId);
+        localStorage.setItem("shopping-cart", JSON.stringify(this.cartList));
         Toast.fire({
-          icon: 'success',
-          title: '商品已從購物車移除'
-        })
-        this.accountTotalAmount()
-        this.updateCartList()
-        this.updateCart(true)
+          icon: "success",
+          title: "商品已從購物車移除",
+        });
+        this.accountTotalAmount();
+        this.updateCartList();
+        this.updateCart(true);
       }
     },
-    updateCartList () {
-      localStorage.setItem('shopping-cart', JSON.stringify(this.cartList))
+    updateCartList() {
+      localStorage.setItem("shopping-cart", JSON.stringify(this.cartList));
       this.checkOutList.items =
-        JSON.parse(localStorage.getItem('shopping-cart')) || []
+        JSON.parse(localStorage.getItem("shopping-cart")) || [];
     },
-    accountTotalAmount () {
-      this.checkOutList.totalAmount = 0
+    accountTotalAmount() {
+      this.checkOutList.totalAmount = 0;
       this.cartList.forEach((list) => {
-        this.checkOutList.totalAmount += list.price * list.buyQty
-      })
+        this.checkOutList.totalAmount += list.price * list.buyQty;
+      });
     },
-    linkToDetail (listId) {
-      this.$router.push(`/item/${listId}`)
+    linkToDetail(listId) {
+      this.$router.push(`/item/${listId}`);
     },
-    backToShop () {
-      this.$router.push('/index')
+    backToShop() {
+      this.$router.push("/index");
     },
-    nextStep () {
+    nextStep() {
       if (!this.checkOutList.name) {
         Toast.fire({
-          icon: 'warning',
-          title: '訂購人姓名不可空白'
-        })
-        return
+          icon: "warning",
+          title: "訂購人姓名不可空白",
+        });
+        return;
       }
       if (!this.checkOutList.phone) {
         Toast.fire({
-          icon: 'warning',
-          title: '手機號碼不可空白'
-        })
-        return
+          icon: "warning",
+          title: "手機號碼不可空白",
+        });
+        return;
       }
       if (this.checkOutList.phone.length !== 10) {
         Toast.fire({
-          icon: 'warning',
-          title: '手機號碼請填正確(10碼)'
-        })
-        return
+          icon: "warning",
+          title: "手機號碼請填正確(10碼)",
+        });
+        return;
       }
       if (!this.checkOutList.delivery) {
         Toast.fire({
-          icon: 'warning',
-          title: '請選擇取貨門市'
-        })
-        return
+          icon: "warning",
+          title: "請選擇取貨門市",
+        });
+        return;
       }
       if (this.checkOutList.agree === false) {
         Toast.fire({
-          icon: 'warning',
-          title: '請閱讀注意事項並勾選同意'
-        })
+          icon: "warning",
+          title: "請閱讀注意事項並勾選同意",
+        });
+        return;
       }
       if (this.checkOutList.items.length) {
-        this.checkOutList.orderId = uuidv4()
+        this.checkOutList.orderId = uuidv4();
       }
-      const confirm = window.confirm('請確認填寫資訊是否皆正確！')
+      const confirm = window.confirm("請確認填寫資訊是否皆正確！");
       if (confirm === true) {
-        this.orderList.push(this.checkOutList)
-        localStorage.setItem('order-list', JSON.stringify(this.orderList))
-        localStorage.removeItem('shopping-cart')
-        this.checkOutList = {}
-        this.orderList = []
-        this.updateCart(true)
-        this.$router.push('/shopping/checkout')
+        this.orderList.push(this.checkOutList);
+        localStorage.setItem("order-list", JSON.stringify(this.orderList));
+        localStorage.removeItem("shopping-cart");
+        this.checkOutList = {};
+        this.orderList = [];
+        this.updateCart(true);
+        this.$router.push("/shopping/checkout");
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
